@@ -18,7 +18,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 /* Floating hearts */
@@ -63,7 +63,7 @@ p {
 
 .buttons {
   position: relative;
-  height: 100px;
+  height: 120px;
 }
 
 button {
@@ -72,20 +72,22 @@ button {
   padding: 12px 26px;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   position: absolute;
 }
 
 #yesBtn {
   background-color: #ff9800;
   color: white;
-  left: 10px;
+  left: 20px;
+  top: 40px;
 }
 
 #noBtn {
   background-color: #ddd;
   color: #333;
-  right: 10px;
+  right: 20px;
+  top: 40px;
 }
 
 #message {
@@ -97,4 +99,120 @@ button {
 }
 
 @keyframes pop {
-  0% { transform: scale(0.4); opac
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* GIF */
+#yesImage {
+  display: none;
+  width: 100%;
+  max-width: 220px;
+  margin: 20px auto;
+  border-radius: 18px;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Hey you</h1>
+  <h2>🌻 <strong>MJ</strong> ❤️</h2>
+
+  <p>
+    Dekh kar apki muskurahat ham hosh gawa bethe,  
+    hame hosh aane hi wala tha...  
+    aap phir muskuran baithe 🥹  
+    <br><br>
+    Will you be my Valentine MJ?  
+    and be the reason I'm always hosh less 😙
+  </p>
+
+  <div class="buttons" id="btnArea">
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">NO 🙄</button>
+  </div>
+
+  <div id="message">
+    I KNEW IT 😭💛🌻  
+    <br><br>
+    Tu menu bhulle na kade,  
+    main na bhullan tenu 💕  
+    <br><br>
+    Happy Valentine’s Day MJ ❤️
+  </div>
+
+  <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
+
+  <audio id="yesAudio" preload="auto">
+    <source src="happy-happy-happy.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script>
+/* Floating hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}, 350);
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const btnArea = document.getElementById("btnArea");
+const message = document.getElementById("message");
+const yesImage = document.getElementById("yesImage");
+const yesAudio = document.getElementById("yesAudio");
+
+let yesSize = 18;
+let noScale = 1;
+
+/* NO button REALLY runs away */
+function runAway() {
+  const areaWidth = btnArea.clientWidth - noBtn.offsetWidth;
+  const areaHeight = btnArea.clientHeight - noBtn.offsetHeight;
+
+  const x = Math.random() * areaWidth;
+  const y = Math.random() * areaHeight;
+
+  noScale -= 0.1;
+  if (noScale <= 0.4) {
+    noBtn.style.display = "none";
+    return;
+  }
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+  noBtn.style.transform = `scale(${noScale})`;
+
+  yesSize += 4;
+  yesBtn.style.fontSize = yesSize + "px";
+  yesBtn.style.padding = "18px 38px";
+}
+
+noBtn.addEventListener("mouseenter", runAway);
+noBtn.addEventListener("touchstart", runAway);
+
+/* YES button */
+yesBtn.addEventListener("click", () => {
+  btnArea.style.display = "none";
+  message.style.display = "block";
+  yesImage.style.display = "block";
+  yesAudio.currentTime = 0;
+  yesAudio.play();
+});
+</script>
+
+</body>
+</html>
