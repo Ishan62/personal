@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Poppins', sans-serif;
   background:
     url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6"),
@@ -18,7 +18,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* Floating hearts */
@@ -41,21 +41,18 @@ body {
   border-radius: 25px;
   box-shadow: 0 25px 50px rgba(0,0,0,0.25);
   text-align: center;
-  max-width: 360px;
+  max-width: 380px;
   width: 90%;
-  z-index: 2;
 }
 
 h1 {
   color: #ff7a00;
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 26px;
 }
 
 h2 {
   color: #e69500;
-  font-size: 20px;
-  margin-bottom: 8px;
+  font-size: 22px;
 }
 
 p {
@@ -104,14 +101,14 @@ button {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* GIF after YES */
+/* GIF */
 #yesImage {
   display: none;
   width: 100%;
   max-width: 220px;
-  margin: 20px auto 0;
-  border-radius: 16px;
-  animation: fadeIn 1s ease-in-out;
+  margin: 20px auto;
+  border-radius: 18px;
+  animation: fadeIn 1s ease;
 }
 
 @keyframes fadeIn {
@@ -132,7 +129,7 @@ button {
     hame hosh aane hi wala tha......  
     aap phir muskuran baithe 🥹  
     <br><br>
-    Will you be my Valentine?  
+    Will you be my Valentine MJ?  
     and be the reason I'm always hosh less 😙
   </p>
 
@@ -150,12 +147,10 @@ button {
     Happy Valentine’s Day MJ ❤️
   </div>
 
-  <!-- DANCING CAT GIF -->
   <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
 
-  <!-- AUDIO -->
-  <audio id="yesAudio">
-    <source src="happy happy happy.mp3" type="audio/mpeg">
+  <audio id="yesAudio" preload="auto">
+    <source src="happy-happy-happy.mp3" type="audio/mpeg">
   </audio>
 </div>
 
@@ -168,7 +163,6 @@ setInterval(() => {
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.animationDuration = (3 + Math.random() * 4) + "s";
   document.body.appendChild(heart);
-
   setTimeout(() => heart.remove(), 7000);
 }, 350);
 
@@ -181,21 +175,17 @@ let yesAudio = document.getElementById("yesAudio");
 let yesSize = 18;
 let noScale = 1;
 
-/* NO button runs away */
+/* NO button */
 noBtn.addEventListener("mouseenter", () => {
-  const x = Math.random() * 220 - 110;
-  const y = Math.random() * 140 - 70;
-
   noScale -= 0.1;
   if (noScale <= 0.4) {
     noBtn.style.display = "none";
   } else {
-    noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
+    noBtn.style.transform = `scale(${noScale})`;
   }
 
   yesSize += 4;
   yesBtn.style.fontSize = yesSize + "px";
-  yesBtn.style.padding = "18px 38px";
 });
 
 /* YES button */
@@ -203,7 +193,9 @@ yesBtn.addEventListener("click", () => {
   document.querySelector(".buttons").style.display = "none";
   message.style.display = "block";
   yesImage.style.display = "block";
-  yesAudio.play();
+
+  yesAudio.currentTime = 0;
+  yesAudio.play().catch(err => console.log("Audio blocked:", err));
 });
 </script>
 
