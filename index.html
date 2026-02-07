@@ -6,68 +6,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== BACKGROUND WITH SUNFLOWERS ===== */
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #fff7b2, #ffd86b);
+  font-family: 'Poppins', sans-serif;
+  background:
+    url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6"),
+    linear-gradient(135deg, #fff7b2, #ffd86b);
+  background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 360px;
-  text-align: center;
-  position: relative;
+/* ===== FLOATING HEARTS ===== */
+.heart {
+  position: fixed;
+  bottom: -30px;
+  font-size: 22px;
+  animation: floatUp linear infinite;
+  opacity: 0.85;
+  z-index: 1;
 }
 
-.buttons {
-  margin-top: 20px;
-  height: 120px;
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ===== CARD ===== */
+.container {
+  background: rgba(255,255,255,0.96);
+  padding: 32px 24px;
+  border-radius: 26px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
   position: relative;
+  z-index: 2;
+}
+
+h1 {
+  color: #ff7a00;
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+h2 {
+  color: #e69500;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+/* ===== BUTTON AREA ===== */
+.buttons {
+  position: relative;
+  height: 130px;
 }
 
 button {
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   padding: 12px 26px;
   font-size: 16px;
   cursor: pointer;
   position: absolute;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 #yesBtn {
   background: #ff9800;
   color: white;
   left: 20px;
-  top: 40px;
+  top: 45px;
 }
 
 #noBtn {
   background: #ddd;
   color: #333;
-  left: 180px;
-  top: 40px;
+  right: 20px;
+  top: 45px;
 }
 
+/* ===== MESSAGE ===== */
 #message {
   display: none;
-  margin-top: 20px;
-  font-size: 18px;
+  margin-top: 25px;
+  font-size: 19px;
   color: #ff6f00;
+  animation: pop 0.8s ease;
 }
 
+@keyframes pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== GIF ===== */
 #yesImage {
   display: none;
-  width: 200px;
-  margin: 15px auto;
+  width: 100%;
+  max-width: 220px;
+  margin: 20px auto 0;
+  border-radius: 18px;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 </style>
 </head>
@@ -75,13 +138,16 @@ button {
 <body>
 
 <div class="container">
-  <h2>Hey you 🌻 MJ ❤️</h2>
+  <h1>Hey you</h1>
+  <h2>🌻 <strong>MJ</strong> ❤️</h2>
 
   <p>
-    Dekh kar apki muskurahat ham hosh gawa bethe,<br>
+    Dekh kar apki muskurahat ham hosh gawa bethe,
+     hame hosh aane hi wala tha...<br>
     aap phir muskuran baithe 🥹
     <br><br>
-    Will you be my Valentine?
+    Will you be my Valentine?<br>
+    and be the reason I’m always hosh less 😙
   </p>
 
   <div class="buttons" id="area">
@@ -90,7 +156,7 @@ button {
   </div>
 
   <div id="message">
-    I KNEW IT 😭💛<br><br>
+    I KNEW IT 😭💛🌻<br><br>
     Tu menu bhulle na kade,<br>
     main na bhullan tenu 💕<br><br>
     Happy Valentine’s Day MJ ❤️
@@ -98,12 +164,24 @@ button {
 
   <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
 
-  <audio id="yesAudio">
+  <audio id="yesAudio" preload="auto">
     <source src="happy-happy-happy.mp3" type="audio/mpeg">
   </audio>
 </div>
 
 <script>
+/* ===== FLOATING HEARTS SPAWNER ===== */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}, 350);
+
+/* ===== BUTTON LOGIC ===== */
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const area = document.getElementById("area");
@@ -112,8 +190,9 @@ const img = document.getElementById("yesImage");
 const audio = document.getElementById("yesAudio");
 
 let scale = 1;
+let yesSize = 16;
 
-/* NO button runs away */
+/* NO button runs away properly */
 function escape() {
   const maxX = area.clientWidth - noBtn.offsetWidth;
   const maxY = area.clientHeight - noBtn.offsetHeight;
@@ -121,7 +200,7 @@ function escape() {
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
 
-  scale -= 0.1;
+  scale -= 0.12;
   if (scale <= 0.4) {
     noBtn.style.display = "none";
     return;
@@ -130,8 +209,12 @@ function escape() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.transform = `scale(${scale})`;
+
+  yesSize += 3;
+  yesBtn.style.fontSize = yesSize + "px";
 }
 
+/* Desktop + Mobile */
 noBtn.addEventListener("mouseenter", escape);
 noBtn.addEventListener("touchstart", escape);
 
@@ -140,6 +223,7 @@ yesBtn.addEventListener("click", () => {
   document.querySelector(".buttons").style.display = "none";
   message.style.display = "block";
   img.style.display = "block";
+  audio.currentTime = 0;
   audio.play();
 });
 </script>
