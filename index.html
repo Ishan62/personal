@@ -103,6 +103,21 @@ button {
   0% { transform: scale(0.4); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* GIF after YES */
+#yesImage {
+  display: none;
+  width: 100%;
+  max-width: 220px;
+  margin: 20px auto 0;
+  border-radius: 16px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
 </style>
 </head>
 
@@ -111,12 +126,14 @@ button {
 <div class="container">
   <h1>Hey you</h1>
   <h2>🌻 <strong>MJ</strong> ❤️</h2>
+
   <p>
-   Dekh kar apki muskurahat ham hosh gawa bethe,
-  ham hosh aane hi wale the aap phir muskuran baithe🥹  
+    Dekh kar apki muskurahat ham hosh gawa bethe,  
+    hame hosh aane hi wala tha......  
+    aap phir muskuran baithe 🥹  
     <br><br>
-    Will you be my Valentine?
-    and be the reason i'm always hosh less 😙
+    Will you be my Valentine?  
+    and be the reason I'm always hosh less 😙
   </p>
 
   <div class="buttons">
@@ -127,10 +144,19 @@ button {
   <div id="message">
     I KNEW IT 😭💛🌻  
     <br><br>
-    Tu menu bhulle na kade, main na bhullan tenu 💕  
+    Tu menu bhulle na kade,  
+    main na bhullan tenu 💕  
     <br><br>
     Happy Valentine’s Day MJ ❤️
   </div>
+
+  <!-- DANCING CAT GIF -->
+  <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
+
+  <!-- AUDIO -->
+  <audio id="yesAudio">
+    <source src="happy happy happy.mp3" type="audio/mpeg">
+  </audio>
 </div>
 
 <script>
@@ -149,11 +175,13 @@ setInterval(() => {
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let message = document.getElementById("message");
+let yesImage = document.getElementById("yesImage");
+let yesAudio = document.getElementById("yesAudio");
 
 let yesSize = 18;
 let noScale = 1;
 
-/* NO button runs away + shrinks */
+/* NO button runs away */
 noBtn.addEventListener("mouseenter", () => {
   const x = Math.random() * 220 - 110;
   const y = Math.random() * 140 - 70;
@@ -174,9 +202,10 @@ noBtn.addEventListener("mouseenter", () => {
 yesBtn.addEventListener("click", () => {
   document.querySelector(".buttons").style.display = "none";
   message.style.display = "block";
+  yesImage.style.display = "block";
+  yesAudio.play();
 });
 </script>
 
 </body>
 </html>
-
