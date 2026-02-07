@@ -33,14 +33,8 @@ body {
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-120vh) scale(1.6);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
 }
 
 /* ===== CARD ===== */
@@ -59,7 +53,7 @@ body {
 h1 {
   color: #ff7a00;
   font-size: 26px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 h2 {
@@ -104,10 +98,12 @@ button {
   top: 45px;
 }
 
-/* ===== MESSAGE ===== */
-#message {
+/* ===== FINAL SECTION (HIDDEN INITIALLY) ===== */
+#finalContent {
   display: none;
-  margin-top: 25px;
+}
+
+#message {
   font-size: 19px;
   color: #ff6f00;
   animation: pop 0.8s ease;
@@ -120,7 +116,6 @@ button {
 
 /* ===== GIF ===== */
 #yesImage {
-  display: none;
   width: 100%;
   max-width: 220px;
   margin: 20px auto 0;
@@ -138,39 +133,47 @@ button {
 <body>
 
 <div class="container">
-  <h1>Hey you</h1>
-  <h2>🌻 <strong>MJ</strong> ❤️</h2>
 
-  <p>
-    Dekh kar apki muskurahat ham hosh gawa bethe,
-     hame hosh aane hi wala tha...<br>
-    aap phir muskuran baithe 🥹
-    <br><br>
-    Will you be my Valentine?<br>
-    and be the reason I’m always hosh less 😙
-  </p>
+  <!-- INITIAL CONTENT -->
+  <div id="initialContent">
+    <h1>Hey you</h1>
+    <h2>🌻 <strong>MJ</strong> ❤️</h2>
 
-  <div class="buttons" id="area">
-    <button id="yesBtn">YES 💖</button>
-    <button id="noBtn">NO 🙄</button>
+    <p>
+      Dekh kar apki muskurahat ham hosh gawa bethe,<br>
+      hame hosh aane hi wala tha…<br>
+      aap phir muskuran baithe 🥹
+      <br><br>
+      Will you be my Valentine MJ?<br>
+      and be the reason I’m always hosh less 😙
+    </p>
+
+    <div class="buttons" id="area">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">NO 🙄</button>
+    </div>
   </div>
 
-  <div id="message">
-    I KNEW IT 😭💛🌻<br><br>
-    Tu menu bhulle na kade,<br>
-    main na bhullan tenu 💕<br><br>
-    Happy Valentine’s Day MJ ❤️
+  <!-- FINAL CONTENT -->
+  <div id="finalContent">
+    <div id="message">
+      I KNEW IT 😭💛🌻<br><br>
+      Tu menu bhulle na kade,<br>
+      main na bhullan tenu 💕<br><br>
+      Happy Valentine’s Day MJ ❤️
+    </div>
+
+    <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
+
+    <audio id="yesAudio" preload="auto">
+      <source src="happy-happy-happy.mp3" type="audio/mpeg">
+    </audio>
   </div>
 
-  <img id="yesImage" src="happy-cat-cat.gif" alt="Happy Cat">
-
-  <audio id="yesAudio" preload="auto">
-    <source src="happy-happy-happy.mp3" type="audio/mpeg">
-  </audio>
 </div>
 
 <script>
-/* ===== FLOATING HEARTS SPAWNER ===== */
+/* ===== FLOATING HEARTS ===== */
 setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -185,14 +188,14 @@ setInterval(() => {
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const area = document.getElementById("area");
-const message = document.getElementById("message");
-const img = document.getElementById("yesImage");
+
+const initial = document.getElementById("initialContent");
+const final = document.getElementById("finalContent");
 const audio = document.getElementById("yesAudio");
 
 let scale = 1;
-let yesSize = 16;
 
-/* NO button runs away properly */
+/* NO button runs away */
 function escape() {
   const maxX = area.clientWidth - noBtn.offsetWidth;
   const maxY = area.clientHeight - noBtn.offsetHeight;
@@ -209,20 +212,15 @@ function escape() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.transform = `scale(${scale})`;
-
-  yesSize += 3;
-  yesBtn.style.fontSize = yesSize + "px";
 }
 
-/* Desktop + Mobile */
 noBtn.addEventListener("mouseenter", escape);
 noBtn.addEventListener("touchstart", escape);
 
 /* YES button */
 yesBtn.addEventListener("click", () => {
-  document.querySelector(".buttons").style.display = "none";
-  message.style.display = "block";
-  img.style.display = "block";
+  initial.style.display = "none";
+  final.style.display = "block";
   audio.currentTime = 0;
   audio.play();
 });
